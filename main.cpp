@@ -4,7 +4,7 @@ int main(int argc, const char * argv[]) {
     try{
         
         if (argc < 2){
-            std::cout << "add path to matrix file" << std::endl;
+            throw std::string("empty path to matrix file");
         }
         
         Matrix mat(argv[1]);
@@ -41,5 +41,6 @@ int main(int argc, const char * argv[]) {
     {
        std::cout << error << std::endl;
     }
+    
     return 0;
 }
