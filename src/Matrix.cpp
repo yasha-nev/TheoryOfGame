@@ -12,18 +12,22 @@ Matrix::Matrix(const std::string &path){
     if (!file.is_open()){
         throw std::string("file is not exist or busy");
     }
-    file >> type;
-    file >> r;
-    file >> c;
+    file >> type >> r >> c;
+    
+    if (std::cin.fail()){
+        throw std::string("Wrong matrix");
+    }
     
     arr.resize(r);
     
     for (size_t i = 0; i < r; i++){
         arr[i].resize(c);
         for (size_t j = 0; j < c; j++){
-            int num;
-            file >> num;
-            arr[i][j] = num;
+            file >> arr[i][j];
+
+            if (std::cin.fail()){
+                throw std::string("Wrong matrix");
+            }
         }
     }
     
@@ -31,9 +35,13 @@ Matrix::Matrix(const std::string &path){
     file >> p;
     
     if (p){
-        prob.resize(r);
-        for (size_t i = 0; i < r; i++){
+        prob.resize(c);
+        for (size_t i = 0; i < c; i++){
             file >> prob[i];
+            
+            if (std::cin.fail()){
+                throw std::string("Wrong matrix");
+            }
         }
     }
     

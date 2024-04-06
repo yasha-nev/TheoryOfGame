@@ -10,25 +10,28 @@ int main(int argc, const char * argv[]) {
         Matrix mat(argv[1]);
         
         std::map<size_t, int> m;
-        size_t strategy;
         
         mat.print();
         
         Bayes bayes(mat);
-        strategy = bayes.fix();
-        m[strategy] += 1;
+        m[bayes.fix()] += 1;
         
         Valde valde(mat);
-        strategy = valde.fix();
-        m[strategy] += 1;
+        m[valde.fix()] += 1;
         
         Sevidge sevidge(mat);
-        strategy = sevidge.fix();
-        m[strategy] += 1;
+        m[sevidge.fix()] += 1;
         
-        Gurvice gurvice(mat, 0.5);
-        strategy = gurvice.fix();
-        m[strategy] += 1;
+        float h;
+        std::cout << "add h parametr: ";
+        std::cin >> h;
+        
+        if (std::cin.fail()){
+            throw std::string("Wrong parametr");
+        }
+        
+        Gurvice gurvice(mat, h);
+        m[gurvice.fix()] += 1;
         
         auto res = std::max_element(m.begin(), m.end(),[] (const std::pair<char,int>& a, const std::pair<char,int>& b){
             return a.second < b.second;
