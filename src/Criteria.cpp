@@ -25,7 +25,10 @@ size_t Bayes::fix(){
         }
         else{
             alpha[i] = std::accumulate(mat.colBegin(i), mat.colEnd(i), 0) / static_cast<float>(mat.colums());
+            
         }
+        
+        std::cout << "A" << i + 1 << ": " << alpha[i] << "\n";
     }
     
     if (mat.matType()){
@@ -35,7 +38,7 @@ size_t Bayes::fix(){
         strategy = std::distance(alpha.begin(), std::max_element(alpha.begin(), alpha.end()));
     }
     
-    std::cout << "The best strategy by Bayes: A" << strategy + 1 << std::endl;
+    std::cout << "The best strategy by Bayes: A" << strategy + 1 << "\n" << std::endl;
     
     return strategy;
 }
@@ -52,10 +55,11 @@ Valde::Valde(const Matrix &matrix){
 size_t Valde::fix(){
     size_t strategy;
     
-    
     if (mat.matType()){
         for (size_t i = 0; i < alpha.size(); i++){
             alpha[i] = *std::max_element(mat.colBegin(i), mat.colEnd(i));
+            
+            std::cout << "A" << i + 1 << ": " << alpha[i] << "\n";
         }
         
         strategy = std::distance(alpha.begin(), std::min_element(alpha.begin(), alpha.end()));
@@ -63,12 +67,14 @@ size_t Valde::fix(){
     else{
         for (size_t i = 0; i < alpha.size(); i++){
             alpha[i] = *std::min_element(mat.colBegin(i), mat.colEnd(i));
+            
+            std::cout << "A" << i + 1 << ": " << alpha[i] << "\n";
         }
         
         strategy = std::distance(alpha.begin(), std::max_element(alpha.begin(), alpha.end()));
     }
     
-    std::cout << "The best strategy by Valde: A" << strategy + 1 << std::endl;
+    std::cout << "The best strategy by Valde: A" << strategy + 1 << "\n" << std::endl;
     
     return strategy;
 }
@@ -87,22 +93,35 @@ size_t Sevidge::fix(){
     
     if (mat.matType()){
         Matrix res = winMatrix(mat);
+        
+        std::cout << "win matrix \n";
+        res.print();
+        
         for (size_t i = 0; i < alpha.size(); i++){
             alpha[i] = *std::max_element(res.colBegin(i), res.colEnd(i));
+            
+            std::cout << "A" << i + 1 << ": " << alpha[i] << "\n";
         }
         
         strategy = std::distance(alpha.begin(), std::min_element(alpha.begin(), alpha.end()));
     }
     else{
         Matrix res = loseMatrix(mat);
+        
+        std::cout << "lose matri \n";
+        
+        res.print();
+        
         for (size_t i = 0; i < alpha.size(); i++){
             alpha[i] = *std::min_element(res.colBegin(i), res.colEnd(i));
+            
+            std::cout << "A" << i + 1 << ": " << alpha[i] << "\n";
         }
         
         strategy = std::distance(alpha.begin(), std::max_element(alpha.begin(), alpha.end()));
     }
     
-    std::cout << "The best strategy by Sevidge: A" << strategy + 1 << std::endl;
+    std::cout << "The best strategy by Sevidge: A" << strategy + 1 << "\n" << std::endl;
     
     return strategy;
 }
@@ -124,6 +143,8 @@ size_t Gurvice::fix(){
             float max = static_cast<float>(*std::max_element(mat.colBegin(i), mat.colEnd(i)));
             
             alpha[i] = H * min + (1 - H) * max;
+            
+            std::cout << "A" << i + 1 << ": " << alpha[i] << "\n";
         }
         
         strategy = std::distance(alpha.begin(), std::max_element(alpha.begin(), alpha.end()));
@@ -134,11 +155,13 @@ size_t Gurvice::fix(){
             float max = static_cast<float>(*std::max_element(mat.colBegin(i), mat.colEnd(i)));
             
             alpha[i] = H * max + (1 - H) * min;
+            
+            std::cout << "A" << i + 1 << ": " << alpha[i] << "\n";
         }
         
         strategy = std::distance(alpha.begin(), std::min_element(alpha.begin(), alpha.end()));
     }
-    std::cout << "The best strategy by Gurvice: A" << strategy + 1 << std::endl;
+    std::cout << "The best strategy by Gurvice: A" << strategy + 1  << "\n" << std::endl;
     
     return strategy;
 }
